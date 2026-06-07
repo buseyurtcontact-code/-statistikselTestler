@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hipotez Testleri Sınıflandırma</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: Arial, sans-serif; background: #f9f9f9; padding: 24px; }
+  .tree { padding: 16px 8px; overflow-x: auto; }
+  .branch { display: flex; flex-direction: column; align-items: center; }
+  .box { border-radius: 8px; padding: 7px 12px; font-size: 12px; font-weight: 500;
+         white-space: nowrap; text-align: center; line-height: 1.4; cursor: pointer;
+         transition: opacity 0.15s; }
+  .box:hover { opacity: 0.75; }
+  .box.root   { background: #EEEDFE; color: #3C3489; border: 1px solid #534AB7; font-size: 13px; }
+  .box.level1 { background: #E1F5EE; color: #085041; border: 1px solid #0F6E56; }
+  .box.level1.np { background: #FAECE7; color: #712B13; border-color: #993C1D; }
+  .box.param  { background: #E6F1FB; color: #0C447C; border: 1px solid #185FA5; }
+  .box.nonparam { background: #FAECE7; color: #712B13; border: 1px solid #993C1D; }
+  .box.test   { background: #F1EFE8; color: #444441; border: 1px solid #5F5E5A; font-size: 11px; font-weight: 400; }
+  .box.sub    { background: #FAEEDA; color: #633806; border: 1px solid #854F0B; font-size: 11px; }
+  .connector-v { width: 1px; background: #ccc; margin: 0 auto; }
+  .legend { display: flex; gap: 16px; flex-wrap: wrap; margin: 20px 8px 0;
+            padding-top: 12px; border-top: 1px solid #ddd; }
+  .leg-item { display: flex; align-items: center; gap: 6px; font-size: 11px; color: #666; }
+  .leg-dot { width: 12px; height: 12px; border-radius: 3px; }
+  .note { font-size: 10px; color: #999; margin-top: 4px; }
+</style>
+</head>
+<body>
+
+<div class="tree">
+  <div style="display:flex;flex-direction:column;align-items:center;">
+
+    <!-- KÖK -->
+    <div class="box root">Hipotez Testleri</div>
+    <div class="connector-v" style="height:16px;"></div>
+
+    <!-- ANA DAL: Parametrik + Non-Parametrik -->
+    <div style="display:flex;gap:60px;align-items:flex-start;">
+
+      <!-- ── PARAMETRİK ── -->
+      <div class="branch">
+        <div class="box level1">Parametrik Testler</div>
+        <div class="connector-v" style="height:8px;"></div>
+        <div class="note">Normallik varsayımı gerekir</div>
+        <div class="connector-v" style="height:8px;"></div>
+
+        <div style="display:flex;gap:16px;align-items:flex-start;">
+
+          <!-- 1 Örneklem -->
+          <div class="branch">
+            <div class="box param">1 örneklem</div>
+            <div class="connector-v" style="height:10px;"></div>
+            <div style="display:flex;gap:8px;">
+              <div class="branch">
+                <div class="box test">Z-testi<br><span style="font-size:10px;">σ biliniyor</span></div>
+              </div>
+              <div class="branch">
+                <div class="box test">T-testi<br><span style="font-size:10px;">σ bilinmiyor</span></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 2 Örneklem -->
+          <div class="branch">
+            <div class="box param">2 örneklem</div>
+            <div class="connector-v" style="height:10px;"></div>
+            <div style="display:flex;gap:8px;">
+              <div class="branch">
+                <div class="box test">Bağımsız<br>T-testi</div>
+              </div>
+              <div class="branch">
+                <div class="box test">Bağımlı<br>T-testi</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 2+ Örneklem -->
+          <div class="branch">
+            <div class="box param">2+ örneklem</div>
+            <div class="connector-v" style="height:10px;"></div>
+            <div style="display:flex;gap:8px;">
+              <div class="branch">
+                <div class="box test">Tek yönlü<br>ANOVA</div>
+                <div class="connector-v" style="height:8px;"></div>
+                <div class="box sub">Post-hoc<br>testleri</div>
+              </div>
+              <div class="branch">
+                <div class="box test">İki yönlü<br>ANOVA</div>
+              </div>
+              <div class="branch">
+                <div class="box test">Tekrarlı<br>ANOVA</div>
+              </div>
+              <div class="branch">
+                <div class="box test">MANOVA</div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- ── NON-PARAMETRİK ── -->
+      <div class="branch">
+        <div class="box level1 np">Non-Parametrik Testler</div>
+        <div class="connector-v" style="height:8px;"></div>
+        <div class="note">Normallik varsayımı gerekmez</div>
+        <div class="connector-v" style="height:8px;"></div>
+
+        <div style="display:flex;gap:16px;align-items:flex-start;">
+
+          <!-- 1 Örneklem -->
+          <div class="branch">
+            <div class="box nonparam">1 örneklem</div>
+            <div class="connector-v" style="height:10px;"></div>
+            <div class="box test">Wilcoxon<br>işaret testi</div>
+          </div>
+
+          <!-- 2 Örneklem -->
+          <div class="branch">
+            <div class="box nonparam">2 örneklem</div>
+            <div class="connector-v" style="height:10px;"></div>
+            <div style="display:flex;gap:8px;">
+              <div class="branch">
+                <div class="box test">Mann-<br>Whitney U</div>
+                <div class="connector-v" style="height:6px;"></div>
+                <div class="note">bağımsız</div>
+              </div>
+              <div class="branch">
+                <div class="box test">Wilcoxon<br>sıralı işaret</div>
+                <div class="connector-v" style="height:6px;"></div>
+                <div class="note">bağımlı</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 2+ Örneklem -->
+          <div class="branch">
+            <div class="box nonparam">2+ örneklem</div>
+            <div class="connector-v" style="height:10px;"></div>
+            <div style="display:flex;gap:8px;">
+              <div class="branch">
+                <div class="box test">Kruskal-<br>Wallis</div>
+                <div class="connector-v" style="height:6px;"></div>
+                <div class="note">bağımsız</div>
+              </div>
+              <div class="branch">
+                <div class="box test">Friedman<br>testi</div>
+                <div class="connector-v" style="height:6px;"></div>
+                <div class="note">bağımlı</div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Lejant -->
+  <div class="legend">
+    <div class="leg-item">
+      <div class="leg-dot" style="background:#E1F5EE;border:1px solid #0F6E56;"></div> Ana dal
+    </div>
+    <div class="leg-item">
+      <div class="leg-dot" style="background:#E6F1FB;border:1px solid #185FA5;"></div> Parametrik
+    </div>
+    <div class="leg-item">
+      <div class="leg-dot" style="background:#FAECE7;border:1px solid #993C1D;"></div> Non-parametrik
+    </div>
+    <div class="leg-item">
+      <div class="leg-dot" style="background:#F1EFE8;border:1px solid #5F5E5A;"></div> Test
+    </div>
+    <div class="leg-item">
+      <div class="leg-dot" style="background:#FAEEDA;border:1px solid #854F0B;"></div> Alt test
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
